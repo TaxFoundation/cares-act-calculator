@@ -28,60 +28,79 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const Container = styled.div`
+  border: 1px solid ${props => props.theme.borderColor};
+  border-radius: ${props => props.theme.borderRadius};
+  margin: 0 auto;
+  max-width: 674px;
+  padding: 1rem;
+`;
+
+const Heading = styled.h1`
+  margin: 0;
+`;
+
 const Section = styled.div`
   display: block;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
 `;
 
 function App() {
   const [filingStatus, setFilingStatus] = useState<keyof statuses>(
     "individual"
   );
-  const [children, setChildren] = useState<number>(1);
-  const [AGI, setAGI] = useState<number>(60000);
-
+  const [children, setChildren] = useState<string>("1");
+  const [AGI, setAGI] = useState<string>("60000");
+  console.log(AGI, AGI.replace(/[$,]/g, ""));
   return (
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <Section>
-        <NumericInput
-          id="agi"
-          value={Number(AGI).toString()}
-          label="Adjusted Gross Income"
-          update={setAGI}
-        />
-      </Section>
-      <Section>
-        Choose Filing Status
-        {[
-          { id: "individual", name: "Individual" },
-          { id: "joint", name: "Married Filing Jointly" },
-          { id: "hoh", name: "Head of Household" }
-        ].map(status => (
-          <RadioButton
-            value={status.id}
-            label={status.name}
-            selected={(status.id as keyof statuses) === filingStatus}
-            update={setFilingStatus}
+      <Container>
+        <Heading>CARES Act Stimulus Payment Calculator</Heading>
+        <p>
+          If you have not yet submitted your 2019 tax year filings, please use
+          the information from your 2018 tax year filings.
+        </p>
+        <Section>
+          <NumericInput
+            id="agi"
+            value={AGI}
+            label="Adjusted Gross Income"
+            update={setAGI}
           />
-        ))}
-      </Section>
-      <Section>
-        <NumericInput
-          id="children"
-          value={Number(children).toString()}
-          label="Number of Children"
-          update={setChildren}
-        />
-      </Section>
-      <Section>
-        Stimulus payment:{" "}
-        {calculate(
-          filingStatus,
-          children ? +children : 0,
-          AGI ? +AGI : 0
-        ).toLocaleString("en-US", { style: "currency", currency: "USD" })}
-      </Section>
+        </Section>
+        <Section>
+          Choose Filing Status
+          {[
+            { id: "individual", name: "Individual" },
+            { id: "joint", name: "Married Filing Jointly" },
+            { id: "hoh", name: "Head of Household" }
+          ].map(status => (
+            <RadioButton
+              value={status.id}
+              label={status.name}
+              selected={(status.id as keyof statuses) === filingStatus}
+              update={setFilingStatus}
+            />
+          ))}
+        </Section>
+        <Section>
+          <NumericInput
+            id="children"
+            value={children}
+            label="Number of Children"
+            update={setChildren}
+          />
+        </Section>
+        <Section>
+          Stimulus payment:{" "}
+          {calculate(
+            filingStatus,
+            children ? +children.replace(/[$,]/g, "") : 0,
+            AGI ? +AGI.replace(/[$,]/g, "") : 0
+          ).toLocaleString("en-US", { style: "currency", currency: "USD" })}
+        </Section>
+      </Container>
     </ThemeProvider>
   );
 }

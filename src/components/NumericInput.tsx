@@ -24,7 +24,7 @@ type props = {
   id: string;
   label: string;
   value: string;
-  update: (event: number) => void;
+  update: (event: string) => void;
 };
 
 const NumericInput: React.FC<props> = ({ id, value, label, update }) => {
@@ -32,11 +32,12 @@ const NumericInput: React.FC<props> = ({ id, value, label, update }) => {
     <>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
       <StyledInput
+        type="text"
         inputMode="numeric"
         pattern="[0-9]*"
         id={id}
         value={value}
-        onChange={e => update(+e.target.value)}
+        onChange={e => update(e.target.value)}
       />
     </>
   );
