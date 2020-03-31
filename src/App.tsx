@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { statuses } from "./statuses";
 import calculate from "./calculation";
+import NumericInput from "./components/NumericInput";
 
 function App() {
   const [filingStatus, setFilingStatus] = useState<keyof statuses>(
@@ -12,12 +13,11 @@ function App() {
 
   return (
     <div>
-      <label htmlFor="agi">Adjusted Gross Income</label>
-      <input
-        type="text"
+      <NumericInput
         id="agi"
         value={Number(AGI).toString()}
-        onChange={e => setAGI(+e.target.value)}
+        label="Adjusted Gross Income"
+        update={setAGI}
       />
       <div>
         <input
@@ -45,12 +45,11 @@ function App() {
         />
         <label htmlFor="hoh">Head of Household</label>
       </div>
-      <label htmlFor="children">Children</label>
-      <input
-        type="text"
+      <NumericInput
         id="children"
         value={Number(children).toString()}
-        onChange={e => setChildren(+e.target.value)}
+        label="Number of Children"
+        update={setChildren}
       />
       <p>{calculate(filingStatus, children ? +children : 0, AGI ? +AGI : 0)}</p>
     </div>
