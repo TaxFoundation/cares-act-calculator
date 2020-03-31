@@ -4,7 +4,7 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { statuses } from "./statuses";
 import calculate from "./calculation";
 import NumericInput from "./components/NumericInput";
-import RadioButton from "./components/RadioButton";
+import RadioGroup from "./components/RadioGroup";
 import Theme from "./Theme";
 
 const GlobalStyle = createGlobalStyle`
@@ -37,7 +37,16 @@ const Container = styled.div`
 `;
 
 const Heading = styled.h1`
+  font-size: 1.5rem;
+  font-weight: 700;
   margin: 0;
+  text-align: center;
+`;
+
+const Notice = styled.div`
+  color: #777;
+  font-size: 0.8rem;
+  font-style: italic;
 `;
 
 const Section = styled.div`
@@ -65,7 +74,7 @@ function App() {
   const [filingStatus, setFilingStatus] = useState<keyof statuses>(
     "individual"
   );
-  const [children, setChildren] = useState<string>("1");
+  const [children, setChildren] = useState<string>("0");
   const [AGI, setAGI] = useState<string>("60000");
 
   return (
@@ -73,10 +82,10 @@ function App() {
       <GlobalStyle />
       <Container>
         <Heading>CARES Act Stimulus Payment Calculator</Heading>
-        <p>
+        <Notice>
           If you have not yet submitted your 2019 tax year filings, please use
           the information from your 2018 tax year filings.
-        </p>
+        </Notice>
         <Section>
           <NumericInputs>
             <NumericInput
@@ -95,20 +104,16 @@ function App() {
           </NumericInputs>
         </Section>
         <Section>
-          Choose Filing Status
-          {[
-            { id: "individual", name: "Individual" },
-            { id: "joint", name: "Married Filing Jointly" },
-            { id: "hoh", name: "Head of Household" }
-          ].map(status => (
-            <RadioButton
-              value={status.id}
-              label={status.name}
-              name="filing-status"
-              selected={(status.id as keyof statuses) === filingStatus}
-              update={setFilingStatus}
-            />
-          ))}
+          <RadioGroup
+            options={[
+              { id: "individual", name: "Individual" },
+              { id: "joint", name: "Married Filing Jointly" },
+              { id: "hoh", name: "Head of Household" }
+            ]}
+            label="Choose Filing Status"
+            selected={filingStatus}
+            update={setFilingStatus}
+          />
         </Section>
         <Section>
           <Result>

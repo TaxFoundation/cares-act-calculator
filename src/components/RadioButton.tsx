@@ -14,8 +14,8 @@ const FormatLabel = styled.label<LabelProps>`
   color: ${props => (props.selected ? "#fff" : props.theme.tfBlue)};
   cursor: pointer;
   display: inline-block;
-  margin: 0 0.5rem;
   padding: 0.5rem;
+  text-align: center;
   transition: all 0.1s ease-in-out;
   user-select: none;
 `;
