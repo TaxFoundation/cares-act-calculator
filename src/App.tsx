@@ -51,7 +51,7 @@ function App() {
   );
   const [children, setChildren] = useState<string>("1");
   const [AGI, setAGI] = useState<string>("60000");
-  console.log(AGI, AGI.replace(/[$,]/g, ""));
+
   return (
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
@@ -98,7 +98,7 @@ function App() {
             filingStatus,
             children ? +children.replace(/[$,]/g, "") : 0,
             AGI ? +AGI.replace(/[$,]/g, "") : 0
-          ).toLocaleString("en-US", { style: "currency", currency: "USD" })}
+          )}
         </Section>
       </Container>
     </ThemeProvider>
