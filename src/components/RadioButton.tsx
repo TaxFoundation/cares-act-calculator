@@ -18,24 +18,25 @@ const FormatLabel = styled.label<LabelProps>`
   padding: 0.5rem;
   transition: all 0.1s ease-in-out;
   user-select: none;
-  &:focus,
-  &:hover {
-    background-color: ${props =>
-      props.selected ? props.theme.tfBlue : props.theme.tfBlueHighlight};
-  }
 `;
 
-const FormatRadio = styled.input`
+const FormatRadio = styled.input<LabelProps>`
   cursor: pointer;
   height: 0;
   opacity: 0;
   position: absolute;
   width: 0;
+
+  &:focus + label {
+    background-color: ${props =>
+      props.selected ? props.theme.tfBlue : props.theme.tfBlueHighlight};
+  }
 `;
 
 interface RadioProps {
   label: string;
   value: string;
+  name: string;
   selected: boolean;
   update: (event: keyof statuses) => void;
 }
@@ -43,6 +44,7 @@ interface RadioProps {
 const RadioButton: React.FC<RadioProps> = ({
   label,
   value,
+  name,
   selected,
   update
 }) => {
@@ -51,8 +53,10 @@ const RadioButton: React.FC<RadioProps> = ({
       <FormatRadio
         type="radio"
         id={value}
+        name={name}
         value={value}
         checked={selected}
+        selected={selected}
         onChange={e => update(e.target.value as keyof statuses)}
       />
       <FormatLabel selected={selected} htmlFor={value}>

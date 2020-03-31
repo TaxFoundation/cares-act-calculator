@@ -90,6 +90,7 @@ function App() {
             <RadioButton
               value={status.id}
               label={status.name}
+              name="filing-status"
               selected={(status.id as keyof statuses) === filingStatus}
               update={setFilingStatus}
             />
