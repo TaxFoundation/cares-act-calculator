@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 
 import { statuses } from "./statuses";
 import calculate from "./calculation";
 import NumericInput from "./components/NumericInput";
+import RadioButton from "./components/RadioButton";
 import Theme from "./Theme";
 
 const GlobalStyle = createGlobalStyle`
@@ -27,6 +28,11 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const Section = styled.div`
+  display: block;
+  margin: 0.5rem;
+`;
+
 function App() {
   const [filingStatus, setFilingStatus] = useState<keyof statuses>(
     "individual"
@@ -37,52 +43,45 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <NumericInput
-        id="agi"
-        value={Number(AGI).toString()}
-        label="Adjusted Gross Income"
-        update={setAGI}
-      />
-      <div>
-        <input
-          type="radio"
-          id="individual"
-          value={"individual"}
-          checked={filingStatus === "individual"}
-          onChange={e => setFilingStatus(e.target.value as keyof statuses)}
+      <Section>
+        <NumericInput
+          id="agi"
+          value={Number(AGI).toString()}
+          label="Adjusted Gross Income"
+          update={setAGI}
         />
-        <label htmlFor="individual">Individual</label>
-        <input
-          type="radio"
-          id="joint"
-          value={"joint"}
-          checked={filingStatus === "joint"}
-          onChange={e => setFilingStatus(e.target.value as keyof statuses)}
+      </Section>
+      <Section>
+        Choose Filing Status
+        {[
+          { id: "individual", name: "Individual" },
+          { id: "joint", name: "Married Filing Jointly" },
+          { id: "hoh", name: "Head of Household" }
+        ].map(status => (
+          <RadioButton
+            value={status.id}
+            label={status.name}
+            selected={(status.id as keyof statuses) === filingStatus}
+            update={setFilingStatus}
+          />
+        ))}
+      </Section>
+      <Section>
+        <NumericInput
+          id="children"
+          value={Number(children).toString()}
+          label="Number of Children"
+          update={setChildren}
         />
-        <label htmlFor="joint">Married Filing Jointly</label>
-        <input
-          type="radio"
-          id="hoh"
-          value={"hoh"}
-          checked={filingStatus === "hoh"}
-          onChange={e => setFilingStatus(e.target.value as keyof statuses)}
-        />
-        <label htmlFor="hoh">Head of Household</label>
-      </div>
-      <NumericInput
-        id="children"
-        value={Number(children).toString()}
-        label="Number of Children"
-        update={setChildren}
-      />
-      <p>
+      </Section>
+      <Section>
         Stimulus payment:{" "}
         {calculate(
           filingStatus,
           children ? +children : 0,
           AGI ? +AGI : 0
         ).toLocaleString("en-US", { style: "currency", currency: "USD" })}
-      </p>
+      </Section>
     </ThemeProvider>
   );
 }
