@@ -1,8 +1,31 @@
 import React, { useState } from "react";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 
 import { statuses } from "./statuses";
 import calculate from "./calculation";
 import NumericInput from "./components/NumericInput";
+import Theme from "./Theme";
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    font-weight: ${props => props.theme.fontWeight};
+    line-height: 1.6;
+    padding: 0 0 1px;
+    @media screen {
+      font-size: ${props => props.theme.fontSize};
+    }
+    @media print {
+      font-size: ${props => props.theme.printSize};
+    }
+  }
+  * {
+    font-family: ${props => props.theme.fontFamilies.lato};
+  }
+`;
 
 function App() {
   const [filingStatus, setFilingStatus] = useState<keyof statuses>(
@@ -12,7 +35,8 @@ function App() {
   const [AGI, setAGI] = useState<number>(60000);
 
   return (
-    <div>
+    <ThemeProvider theme={Theme}>
+      <GlobalStyle />
       <NumericInput
         id="agi"
         value={Number(AGI).toString()}
@@ -52,7 +76,7 @@ function App() {
         update={setChildren}
       />
       <p>{calculate(filingStatus, children ? +children : 0, AGI ? +AGI : 0)}</p>
-    </div>
+    </ThemeProvider>
   );
 }
 

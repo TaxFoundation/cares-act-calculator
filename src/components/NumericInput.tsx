@@ -2,20 +2,21 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledLabel = styled.label`
-  font-family: "Lato", sans-serif;
-  font-size: 1rem;
+  font-family: ${props => props.theme.fontFamilies.lato};
+  font-size: ${props => props.theme.fontSize};
   margin-right: 1rem;
 `;
 
 const StyledInput = styled.input`
-  border: 1px solid #333;
-  border-radius: 4px;
-  font-size: 1rem;
+  border: 1px solid ${props => props.theme.borderColor};
+  border-radius: ${props => props.theme.borderRadius};
+  font-family: ${props => props.theme.fontFamilies.lato};
+  font-size: ${props => props.theme.fontSize};
   padding: 0.5rem;
 
   &:active,
   &:focus {
-    border: 1px solid #0094ff;
+    border: 1px solid ${props => props.theme.tfBlue};
   }
 `;
 
