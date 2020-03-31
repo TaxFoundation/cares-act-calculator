@@ -42,16 +42,21 @@ const Heading = styled.h1`
 
 const Section = styled.div`
   display: block;
-  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+`;
+
+const NumericInputs = styled.div`
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `;
 
 const Result = styled.div`
   background-color: ${props => props.theme.tfBlueHighlight};
-  border 1px solid ${props => props.theme.tfBlueHighlight};
+  border: 1px solid ${props => props.theme.tfBlueHighlight};
   border-radius: ${props => props.theme.borderRadius};
   font-size: 1.2rem;
   font-weight: 700;
-  margin: 1rem 0 0;
   padding: 0.5rem 0;
   text-align: center;
 `;
@@ -73,12 +78,21 @@ function App() {
           the information from your 2018 tax year filings.
         </p>
         <Section>
-          <NumericInput
-            id="agi"
-            value={AGI}
-            label="Adjusted Gross Income"
-            update={setAGI}
-          />
+          <NumericInputs>
+            <NumericInput
+              id="agi"
+              value={AGI}
+              label="Adjusted Gross Income"
+              update={setAGI}
+            />
+
+            <NumericInput
+              id="children"
+              value={children}
+              label="Number of Children"
+              update={setChildren}
+            />
+          </NumericInputs>
         </Section>
         <Section>
           Choose Filing Status
@@ -95,14 +109,6 @@ function App() {
               update={setFilingStatus}
             />
           ))}
-        </Section>
-        <Section>
-          <NumericInput
-            id="children"
-            value={children}
-            label="Number of Children"
-            update={setChildren}
-          />
         </Section>
         <Section>
           <Result>

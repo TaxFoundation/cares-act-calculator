@@ -13,6 +13,7 @@ const StyledInput = styled.input`
   font-family: ${props => props.theme.fontFamilies.lato};
   font-size: ${props => props.theme.fontSize};
   padding: 0.5rem;
+  width: 100%;
 
   &:active,
   &:focus {
@@ -29,7 +30,7 @@ type props = {
 
 const NumericInput: React.FC<props> = ({ id, value, label, update }) => {
   return (
-    <>
+    <div>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
       <StyledInput
         type="text"
@@ -39,7 +40,7 @@ const NumericInput: React.FC<props> = ({ id, value, label, update }) => {
         value={value}
         onChange={e => update(e.target.value)}
       />
-    </>
+    </div>
   );
 };
 
