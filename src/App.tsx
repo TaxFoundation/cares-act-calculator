@@ -45,6 +45,17 @@ const Section = styled.div`
   margin: 0.5rem 0;
 `;
 
+const Result = styled.div`
+  background-color: ${props => props.theme.tfBlueHighlight};
+  border 1px solid ${props => props.theme.tfBlueHighlight};
+  border-radius: ${props => props.theme.borderRadius};
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 1rem 0 0;
+  padding: 0.5rem 0;
+  text-align: center;
+`;
+
 function App() {
   const [filingStatus, setFilingStatus] = useState<keyof statuses>(
     "individual"
@@ -93,12 +104,14 @@ function App() {
           />
         </Section>
         <Section>
-          Stimulus payment:{" "}
-          {calculate(
-            filingStatus,
-            children ? +children.replace(/[$,]/g, "") : 0,
-            AGI ? +AGI.replace(/[$,]/g, "") : 0
-          )}
+          <Result>
+            Stimulus payment:{" "}
+            {calculate(
+              filingStatus,
+              children ? +children.replace(/[$,]/g, "") : 0,
+              AGI ? +AGI.replace(/[$,]/g, "") : 0
+            )}
+          </Result>
         </Section>
       </Container>
     </ThemeProvider>
