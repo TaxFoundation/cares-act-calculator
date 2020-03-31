@@ -75,7 +75,14 @@ function App() {
         label="Number of Children"
         update={setChildren}
       />
-      <p>{calculate(filingStatus, children ? +children : 0, AGI ? +AGI : 0)}</p>
+      <p>
+        Stimulus payment:{" "}
+        {calculate(
+          filingStatus,
+          children ? +children : 0,
+          AGI ? +AGI : 0
+        ).toLocaleString("en-US", { style: "currency", currency: "USD" })}
+      </p>
     </ThemeProvider>
   );
 }
