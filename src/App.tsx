@@ -81,7 +81,7 @@ function App() {
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
       <Container>
-        <Heading>CARES Act Stimulus Payment Calculator</Heading>
+        <Heading>CARES Act Rebate Calculator</Heading>
         <Notice>
           If you have not yet submitted your 2019 tax year filings, please use
           the information from your 2018 tax year filings.
@@ -117,7 +117,7 @@ function App() {
         </Section>
         <Section>
           <Result>
-            Stimulus payment:{" "}
+            Rebate Amount:{" "}
             {calculate(
               filingStatus,
               children ? +children.replace(/[$,]/g, "") : 0,
