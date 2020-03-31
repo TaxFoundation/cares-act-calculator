@@ -7,11 +7,18 @@ function App() {
   const [filingStatus, setFilingStatus] = useState<keyof statuses>(
     "individual"
   );
-  const [children, setChildren] = useState(1);
-  const [AGI, setAGI] = useState(60000);
+  const [children, setChildren] = useState<number>(1);
+  const [AGI, setAGI] = useState<number>(60000);
 
   return (
     <div>
+      <label htmlFor="agi">Adjusted Gross Income</label>
+      <input
+        type="text"
+        id="agi"
+        value={Number(AGI).toString()}
+        onChange={e => setAGI(+e.target.value)}
+      />
       <div>
         <input
           type="radio"
@@ -38,7 +45,14 @@ function App() {
         />
         <label htmlFor="hoh">Head of Household</label>
       </div>
-      <p>{calculate(filingStatus, children, AGI)}</p>
+      <label htmlFor="children">Children</label>
+      <input
+        type="text"
+        id="children"
+        value={Number(children).toString()}
+        onChange={e => setChildren(+e.target.value)}
+      />
+      <p>{calculate(filingStatus, children ? +children : 0, AGI ? +AGI : 0)}</p>
     </div>
   );
 }
