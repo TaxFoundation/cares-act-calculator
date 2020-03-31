@@ -1,24 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import { statuses } from "./statuses";
+import calculate from "./calculation";
 
 function App() {
+  const [filingStatus, setFilingStatus] = useState<keyof statuses>(
+    "individual"
+  );
+  const [children, setChildren] = useState(1);
+  const [AGI, setAGI] = useState(60000);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>
+        <input
+          type="radio"
+          id="individual"
+          value={"individual"}
+          checked={filingStatus === "individual"}
+          onChange={e => setFilingStatus(e.target.value as keyof statuses)}
+        />
+        <label htmlFor="individual">Individual</label>
+        <input
+          type="radio"
+          id="joint"
+          value={"joint"}
+          checked={filingStatus === "joint"}
+          onChange={e => setFilingStatus(e.target.value as keyof statuses)}
+        />
+        <label htmlFor="joint">Married Filing Jointly</label>
+        <input
+          type="radio"
+          id="hoh"
+          value={"hoh"}
+          checked={filingStatus === "hoh"}
+          onChange={e => setFilingStatus(e.target.value as keyof statuses)}
+        />
+        <label htmlFor="hoh">Head of Household</label>
+      </div>
+      <p>{calculate(filingStatus, children, AGI)}</p>
     </div>
   );
 }
