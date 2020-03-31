@@ -1,6 +1,6 @@
-import { DefaultTheme } from "styled-components";
+import { DefaultTheme, createGlobalStyle } from "styled-components";
 
-const Theme: DefaultTheme = {
+export const Theme: DefaultTheme = {
   borderColor: "#bbb",
   borderRadius: "4px",
   color: "hsl(0, 0%, 7%)",
@@ -18,4 +18,23 @@ const Theme: DefaultTheme = {
   white: "hsl(0, 0%, 100%)"
 };
 
-export default Theme;
+export const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    font-weight: ${props => props.theme.fontWeight};
+    line-height: 1.6;
+    padding: 0 0 1px;
+    @media screen {
+      font-size: ${props => props.theme.fontSize};
+    }
+    @media print {
+      font-size: ${props => props.theme.printSize};
+    }
+  }
+  * {
+    font-family: ${props => props.theme.fontFamilies.lato};
+  }
+`;
